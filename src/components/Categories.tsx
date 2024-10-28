@@ -32,9 +32,9 @@ const Categories = async () => {
             <CarouselItem key={category.id} className="md:basis-1/2 lg:basis-1/3">
               <div className={`p-4 rounded-sm bg-${category.color}-100 relative overflow-hidden group w-full h-[300px]`}>
                 <Image 
-                  src={category.img} 
+                  src={category.img || ''} 
                   alt={category.title} 
-                 fill
+                  fill
                   className='object-cover w-full h-full transition-all duration-300'
                 />
                 <div className={`absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 transform translate-y-full transition-transform duration-300 group-hover:translate-y-0 h-screen flex items-center justify-center `}>
