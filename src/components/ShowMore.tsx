@@ -1,7 +1,7 @@
 "use client"
-import { ShowMoreProps } from "@/types"
+import { ShowMoreProps } from "@/types/types"
 import { useRouter } from "next/navigation"
-import CustomButton from "./CustomButton"
+import Button from "./Button"
 const ShowMore = ({ pageNumber, isNext, setLimit}:ShowMoreProps) => {
   
   const router = useRouter()
@@ -14,7 +14,7 @@ const ShowMore = ({ pageNumber, isNext, setLimit}:ShowMoreProps) => {
     setLimit(newLimit)
 }
     return (
-    <div className="w-full flex-center gap-5 mt-10">
+    <div className="w-full gap-5 mt-10 flex-center">
         {!isNext && (
             <Button 
                 type='button'

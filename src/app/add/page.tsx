@@ -17,7 +17,7 @@ type Option = {
     title:string;
     additionalPrice:number 
 }
-const page = () => {
+const Page = () => {
     const router = useRouter()
     const {data:session, status} =  useSession()
     const [file, setFile] = useState<File>()
@@ -97,49 +97,49 @@ const page = () => {
     }
   return (
     <div className="p-32 m-20 ">
-          <form className='shadow-lg flex flex-wrap gap-4 p-8' onSubmit={handleSubmit} >
+          <form className='flex flex-wrap gap-4 p-8 shadow-lg' onSubmit={handleSubmit} >
               <h1>Add new product</h1>
-              <div className='w-full flex flex-col gap-2'>
+              <div className='flex flex-col w-full gap-2'>
                   <label>Title</label>
-                  <input onChange={handleChange} type="text" name="title" className='ring-1 ring-red-200 p-2 rounded-sm'/>
+                  <input onChange={handleChange} type="text" name="title" className='p-2 rounded-sm ring-1 ring-red-200'/>
               </div>
 
-              <div className='w-full flex flex-col gap-2'>
+              <div className='flex flex-col w-full gap-2'>
                   <label>Image</label>
-                  <input onChange={handleChangeImage} type="file"  className='ring-1 ring-red-200 p-2 rounded-sm'/>
+                  <input onChange={handleChangeImage} type="file"  className='p-2 rounded-sm ring-1 ring-red-200'/>
               </div>
 
-              <div className='w-full flex flex-col gap-2'>
+              <div className='flex flex-col w-full gap-2'>
                   <label>Desc</label>
-                  <textarea onChange={handleChange} name="desc" className='ring-1 ring-red-200 p-2 rounded-sm'/>
+                  <textarea onChange={handleChange} name="desc" className='p-2 rounded-sm ring-1 ring-red-200'/>
               </div>
-              <div className='w-full flex flex-col gap-2'>
+              <div className='flex flex-col w-full gap-2'>
                   <label>Price</label>
-                  <input onChange={handleChange} type="number" name="price" className='ring-1 ring-red-200 p-2 rounded-sm'/>
+                  <input onChange={handleChange} type="number" name="price" className='p-2 rounded-sm ring-1 ring-red-200'/>
 
               </div>
 
-              <div className='w-full flex flex-col gap-2'>
+              <div className='flex flex-col w-full gap-2'>
                   <label>Category</label>
-                  <input onChange={handleChange} type="text" name="catSlug" className='ring-1 ring-red-200 p-2 rounded-sm'/>
+                  <input onChange={handleChange} type="text" name="catSlug" className='p-2 rounded-sm ring-1 ring-red-200'/>
               </div>
-              <div className='w-full flex flex-col gap-2'> 
+              <div className='flex flex-col w-full gap-2'> 
                   <label>Options</label>
                   <div>
-                      <input onChange={changeOptions} className='ring ring-red-200 p-2 rounded-sm' type="text" name="title" placeholder='Title' />
-                      <input onChange={changeOptions} className='ring ring-red-200 p-2 rounded-sm' type="number" name="additionalPrice" placeholder='Additional Price' />
+                      <input onChange={changeOptions} className='p-2 rounded-sm ring ring-red-200' type="text" name="title" placeholder='Title' />
+                      <input onChange={changeOptions} className='p-2 rounded-sm ring ring-red-200' type="number" name="additionalPrice" placeholder='Additional Price' />
                   </div>
                   <button 
                     type="button"
-                    className='w-52 bg-red-500 text-white p-2'
+                    className='p-2 text-white bg-red-500 w-52'
                     onClick={() => setOptions((prev) => [...prev,option])}
                   >
                     Add Options
                   </button>
           </div>
-          <div className='w-full flex flex-col gap-2'>
+          <div className='flex flex-col w-full gap-2'>
               {options.map((item) => (
-                <div className='ring-1 p-2 ring-red-500 rounded-md cursor-pointer' key={item.title} onClick={() => setOptions(options.filter(opt=>opt.title !== item.title))}>
+                <div className='p-2 rounded-md cursor-pointer ring-1 ring-red-500' key={item.title} onClick={() => setOptions(options.filter(opt=>opt.title !== item.title))}>
                 <span>{item.title}</span>
                 <span>${item.additionalPrice}</span>
             </div>
@@ -152,4 +152,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
