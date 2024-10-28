@@ -1,5 +1,5 @@
 "use client"
-import { OrderType } from "@/types/types";
+import { CartItemType, OrderType } from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -73,23 +73,23 @@ const OrdersPage = () => {
         <tbody>
           {data?.map((item:OrderType) => (
             <tr className={`text-sm md:text-base ${item.status==="delivered"? `bg-green-400`:`bg-red-50`}`} key={item.id}>
-            <td className="hidden md:block py-6 px-1">{item.id}</td>
-            <td className="py-6 px-1">{item.createdAt.toString().slice(0,10)}</td>
-            <td className="py-6 px-1">{item.price}</td>
-            <td className="hidden md:block py-6 px-1">{item.products.title}</td>
+            <td className="hidden px-1 py-6 md:block">{item.id}</td>
+            <td className="px-1 py-6">{item.createdAt.toString().slice(0,10)}</td>
+            <td className="px-1 py-6">{item.price}</td>
+            <td className="hidden px-1 py-6 md:block">{item.products.map((product:CartItemType)=>product.title).join(", ")}</td>
             
               {session?.user.isAdmin ? (
-                <td className="py-6 px-1">
+                <td className="px-1 py-6">
                   <form className="flex items-center justify-center gap-4" onSubmit={(e)=>handleUpdate(e,item.id)}>
                   <input placeholder={item.status} className="p-2 ring-red-100 row "/>
-                <button className="bg-red-500 p-2 rounded-full">
+                <button className="p-2 bg-red-500 rounded-full">
                   <Image src="/edit.png" alt="" width={20} height={20} />
                 </button>
                   </form>
                 </td>
               ) 
               :
-              (<td className="py-6 px-1">
+              (<td className="px-1 py-6">
                 {item.status}
               </td>)}
                
