@@ -37,7 +37,7 @@ export const PUT = async (req: Request) => {
     console.error("Error in updating order:", error);
 
     return new NextResponse(
-      JSON.stringify({ message: "Internal Server Error", error: error.message }),
+      JSON.stringify({ message: "Internal Server Error", error }),
       { status: 500 }
     );
   }
