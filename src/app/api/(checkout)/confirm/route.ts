@@ -2,9 +2,14 @@ import { prisma } from "@/lib/utils/connect";
 import { NextResponse } from "next/server";
 
 export async function PUT(req: Request) {
+  let prismaClient = prisma;
+  
   try {
+    // Ensure Prisma is connected
+    await prismaClient.$connect();
+    
     const { intentId } = await req.json();
-    console.log("Intent ID received:", intentId);
+    console.log("Intent ID received:", intentId);  
 
     if (!intentId) {
       return NextResponse.json(
@@ -13,7 +18,7 @@ export async function PUT(req: Request) {
       );
     }
 
-    const order = await prisma.order.update({
+    const order = await prismaClient.order.update({
       where: {
         intent_id: intentId,
       },
@@ -35,11 +40,24 @@ export async function PUT(req: Request) {
     );
   } catch (error) {
     console.error("Error in updating order:", error);
+    
+    // More specific error handling
+    if (error instanceof Error && error.message.includes('prisma')) {
+      return NextResponse.json(
+        { message: "Database connection error", error: error.message },
+        { status: 503 }
+      );
+    }
+    
     return NextResponse.json(
       { message: "Internal Server Error", error: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   } finally {
-    await prisma.$disconnect();
+    try {
+      await prismaClient.$disconnect();
+    } catch (e) {
+      console.error("Error disconnecting from database:", e);
+    }
   }
 }
