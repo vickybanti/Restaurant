@@ -1,20 +1,24 @@
 import { prisma } from "@/lib/utils/connect";
 import { NextResponse } from "next/server";
 
-// Add this to handle Prisma warm-up
+// Modify the initPrisma function to be more robust
 const initPrisma = async () => {
   try {
-    await prisma.$connect();
+    // Check if we're already connected
+    const result = await prisma.$queryRaw`SELECT 1`;
+    console.log("Database connection verified");
   } catch (error) {
-    console.error("Failed to connect to database:", error);
-    throw error;
+    console.log("Attempting to reconnect to database...");
+    await prisma.$connect();
   }
 };
 
 export async function PUT(req: Request) {
-  await initPrisma(); // Add this line at the start of your function
   try {
-    const { intentId } = await req.json();  // Parsing JSON from request body
+    // Initialize Prisma before any operations
+    await initPrisma();
+    
+    const { intentId } = await req.json();
     console.log("Intent ID received:", intentId);
 
     if (!intentId) {
@@ -46,12 +50,20 @@ export async function PUT(req: Request) {
     );
   } catch (error) {
     console.error("Error in updating order:", error);
-    await prisma.$disconnect(); // Add disconnect on error
+    try {
+      await prisma.$disconnect();
+    } catch (disconnectError) {
+      console.error("Error disconnecting from database:", disconnectError);
+    }
     return NextResponse.json(
-      { message: "Internal Server Error", error },
+      { message: "Internal Server Error", error: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   } finally {
-    await prisma.$disconnect(); // Add disconnect in finally block
+    try {
+      await prisma.$disconnect();
+    } catch (disconnectError) {
+      console.error("Error disconnecting from database:", disconnectError);
+    }
   }
 }
