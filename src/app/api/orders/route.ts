@@ -13,13 +13,13 @@ export const GET = async() => {
     if(session) {
         try {
             if(session.user.isAdmin){
-                const orders = await prisma.Order.findMany()
+                const orders = await prisma.order.findMany()
                 return new NextResponse("ok", {status:200})
 
             }
-            const orders = await prisma.Order.findMany({
+            const orders = await prisma.order.findMany({
                 where:{
-                    userEmail:session.user.email
+                    userEmail: session.user.email ?? undefined
                 }
             })
             return new NextResponse(JSON.stringify(orders),{status:200})
