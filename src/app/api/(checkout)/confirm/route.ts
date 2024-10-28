@@ -4,12 +4,12 @@ import { NextResponse } from "next/server";
 // Modify the initPrisma function to be more robust
 const initPrisma = async () => {
   try {
-    // Check if we're already connected
+    await prisma.$connect();
     const result = await prisma.$queryRaw`SELECT 1`;
     console.log("Database connection verified");
   } catch (error) {
-    console.log("Attempting to reconnect to database...");
-    await prisma.$connect();
+    console.error("Failed to initialize Prisma:", error);
+    throw new Error("Database connection failed");
   }
 };
 
@@ -50,11 +50,6 @@ export async function PUT(req: Request) {
     );
   } catch (error) {
     console.error("Error in updating order:", error);
-    try {
-      await prisma.$disconnect();
-    } catch (disconnectError) {
-      console.error("Error disconnecting from database:", disconnectError);
-    }
     return NextResponse.json(
       { message: "Internal Server Error", error: error instanceof Error ? error.message : String(error) },
       { status: 500 }
