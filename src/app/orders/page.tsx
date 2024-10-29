@@ -45,7 +45,8 @@ const OrdersPage = () => {
         headers:{
           "Content-Type":"application/json"
         },
-        body:JSON.stringify(status)
+        body:JSON.stringify(status),
+        mode: "no-cors",
       })
     },
     onSuccess(){

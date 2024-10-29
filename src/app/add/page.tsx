@@ -82,7 +82,8 @@ const Page = () => {
                 img:url,
                 ...inputs,
                 options
-            })
+            }),
+            mode: "no-cors",
             
 
          })   

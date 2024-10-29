@@ -74,6 +74,7 @@ const Featured = () => {
       setLoading(true)
       fetch(`${process.env.NEXT_PUBLIC_URL}/api/products/featuredProduct`, {
         cache: "no-store",
+        mode: "no-cors",
       })
         .then((res) => {
           if (!res.ok) {
