@@ -83,6 +83,10 @@ const Page = () => {
                 ...inputs,
                 options
             }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              },
             
 
          })   

@@ -42,8 +42,9 @@ const OrdersPage = () => {
   const mutation = useMutation({
     mutationFn: async({id,status}:{id:string,status:string}) => {
       return await fetch(`${process.env.NEXT_PUBLIC_URL}/api/orders/${id}`,{
-        headers:{
-          "Content-Type":"application/json"
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
         body:JSON.stringify(status),
       })

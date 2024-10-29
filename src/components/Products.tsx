@@ -38,6 +38,10 @@ import { Skeleton } from "./ui/skeleton";
 const getData = async(page: number, limit: number) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products?page=${page}&limit=${limit}`,{
     cache:"no-store",
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
   })
   if(!res.ok){
     throw new Error("failed")

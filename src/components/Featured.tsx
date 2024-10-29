@@ -75,6 +75,10 @@ const Featured = () => {
       fetch(`${process.env.NEXT_PUBLIC_URL}/api/products/featuredProduct`, {
         cache: "no-store",
         mode: "no-cors",
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
       })
         .then((res) => {
           if (!res.ok) {

@@ -15,6 +15,10 @@ const getData = () => {
   return fetch(`${process.env.NEXT_PUBLIC_URL}/api/categories`, {
     method: "GET",
     cache: "no-store",
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
   })
   .then(res => {
     if (!res.ok) {

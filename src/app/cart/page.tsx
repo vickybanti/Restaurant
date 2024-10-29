@@ -27,8 +27,10 @@ const handleCheckout = async() => {
     try {
       const res = await fetch( `${process.env.NEXT_PUBLIC_URL}/api/orders`,{
         method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },        body:JSON.stringify({
           price:totalPrice,
           products,
           status:"Not paid",
