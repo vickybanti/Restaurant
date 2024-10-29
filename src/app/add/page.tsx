@@ -83,7 +83,6 @@ const Page = () => {
                 ...inputs,
                 options
             }),
-            mode: "no-cors",
             
 
          })   

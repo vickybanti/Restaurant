@@ -46,7 +46,6 @@ const OrdersPage = () => {
           "Content-Type":"application/json"
         },
         body:JSON.stringify(status),
-        mode: "no-cors",
       })
     },
     onSuccess(){
