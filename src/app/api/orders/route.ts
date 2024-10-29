@@ -46,7 +46,7 @@ export const POST = async(req:NextRequest) => {
         try {
             const body = await req.json()
             if(session.user){
-                const order = await prisma.order.create({
+                const order = await prisma.Order.create({
                     data:body
                 })
                 return new NextResponse(JSON.stringify(order), {status:200});
