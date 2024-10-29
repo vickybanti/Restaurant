@@ -40,7 +40,6 @@ const getData = async(page: number, limit: number) => {
     cache:"no-store",
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
     },
   })
   if(!res.ok){
