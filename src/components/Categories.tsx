@@ -12,7 +12,7 @@ import {
 import Image from 'next/image'
 
 const getData = () => {
-  return fetch(`${process.env.NEXT_PUBLIC_URL}/api/categories`, {
+  return fetch(`/api/categories`, {
     method: "GET",
     cache: "no-store",
     headers: {
