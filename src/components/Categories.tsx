@@ -30,20 +30,28 @@ const Categories = () => {
     const fetchData = async () => {
       try {
         const data = await getData()
-        setCategories(data)
+        // Ensure data is an array before setting state
+        if (Array.isArray(data)) {
+          setCategories(data)
+        } else {
+          console.error("Categories data is not an array:", data)
+          setCategories([])
+        }
       } catch (error) {
         console.error("Error fetching categories:", error)
+        setCategories([])
       }
     }
     fetchData()
   }, [])
   
+  // Add a check to ensure categories is an array before mapping
   return (
     <div className="py-7 mx-20 border-t-2 border-t-[#B78C56] mt-4">
       <h2 className="mb-4 font-sans text-3xl font-semibold text-gray-900 ">Categories</h2>
       <Carousel>
         <CarouselContent>
-          {categories.map((category) => (
+          {Array.isArray(categories) && categories.map((category) => (
             <CarouselItem key={category.id} className="md:basis-1/2 lg:basis-1/3">
               <div className={`p-4 rounded-sm bg-${category.color}-100 relative overflow-hidden group w-full h-[300px]`}>
                 <Image 
