@@ -1,5 +1,7 @@
+"use client";
+
 import { CategoryType } from '@/types/types'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Carousel,
   CarouselContent,
@@ -9,6 +11,7 @@ import {
 } from "@/components/ui/carousel"
 import Image from 'next/image'
 
+// Move getData outside component
 const getData = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/categories`, {
     method: "GET",
@@ -20,8 +23,20 @@ const getData = async () => {
   return res.json()
 }
 
-const Categories = async () => {
-  const categories: CategoryType[] = await getData()
+const Categories = () => {
+  const [categories, setCategories] = useState<CategoryType[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getData()
+        setCategories(data)
+      } catch (error) {
+        console.error("Error fetching categories:", error)
+      }
+    }
+    fetchData()
+  }, [])
   
   return (
     <div className="py-7 mx-20 border-t-2 border-t-[#B78C56] mt-4">
