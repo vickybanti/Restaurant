@@ -5,9 +5,24 @@ export async function PUT(req: Request) {
   let prismaClient = prisma;
   
   try {
-    // Ensure Prisma is connected
-    await prismaClient.$connect();
+    // Add connection timeout and retry logic
+    const MAX_RETRIES = 3;
+    let retryCount = 0;
     
+    while (retryCount < MAX_RETRIES) {
+      try {
+        await prismaClient.$connect();
+        break;
+      } catch (connError) {
+        retryCount++;
+        if (retryCount === MAX_RETRIES) {
+          throw new Error(`Failed to connect to database after ${MAX_RETRIES} attempts`);
+        }
+        // Wait for 1 second before retrying
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
+
     const { intentId } = await req.json();
     console.log("Intent ID received:", intentId);  
 
@@ -41,12 +56,19 @@ export async function PUT(req: Request) {
   } catch (error) {
     console.error("Error in updating order:", error);
     
-    // More specific error handling
-    if (error instanceof Error && error.message.includes('prisma')) {
-      return NextResponse.json(
-        { message: "Database connection error", error: error.message },
-        { status: 503 }
-      );
+    // Enhanced error handling
+    if (error instanceof Error) {
+      if (error.message.includes('connect ECONNREFUSED')) {
+        return NextResponse.json(
+          { message: "Database connection refused. Please ensure the database server is running." },
+          { status: 503 }
+        );
+      } else if (error.message.includes('prisma')) {
+        return NextResponse.json(
+          { message: "Database error", error: error.message },
+          { status: 503 }
+        );
+      }
     }
     
     return NextResponse.json(
