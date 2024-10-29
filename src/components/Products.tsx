@@ -36,7 +36,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
 
 const getData = async(page: number, limit: number) => {
-  const res = await fetch(`http://localhost:3000/api/products?page=${page}&limit=${limit}`,{
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products?page=${page}&limit=${limit}`,{
     cache:"no-store",
   })
   if(!res.ok){

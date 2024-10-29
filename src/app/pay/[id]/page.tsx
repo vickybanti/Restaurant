@@ -19,7 +19,7 @@ const PaymentPage = ({params}:{params:{id:string}}) => {
     const makeRequest = async() => {
       setLoading(true)
       try {
-        const res = await fetch(`http://localhost:3000/api/create-intent/`,{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/create-intent/`,{
           method:"POST",
           body:JSON.stringify({id:id}),
           headers: { 'Content-Type': 'application/json' },

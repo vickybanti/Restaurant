@@ -72,7 +72,7 @@ const Featured = () => {
   useEffect(() => {
     const fetchData = () => {
       setLoading(true)
-      fetch("http://localhost:3000/api/products/featuredProduct", {
+      fetch(`${process.env.NEXT_PUBLIC_URL}/api/products/featuredProduct`, {
         cache: "no-store",
       })
         .then((res) => {

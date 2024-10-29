@@ -30,7 +30,7 @@ const OrdersPage = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ['orders'],
     queryFn: async () =>
-      await fetch('http://localhost:3000/api/orders').then((res) =>
+      await fetch(`${process.env.NEXT_PUBLIC_URL}/api/orders`).then((res) =>
          res.json(),
       ),
   })
@@ -41,7 +41,7 @@ const OrdersPage = () => {
 
   const mutation = useMutation({
     mutationFn: async({id,status}:{id:string,status:string}) => {
-      return await fetch(`http://localhost:3000/api/orders/${id}`,{
+      return await fetch(`${process.env.NEXT_PUBLIC_URL}/api/orders/${id}`,{
         headers:{
           "Content-Type":"application/json"
         },

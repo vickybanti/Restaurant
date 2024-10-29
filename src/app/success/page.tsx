@@ -14,7 +14,7 @@ const Success = () => {
     const makeRequest = async () => {
       try {
         if (payment_intent) {
-          const response = await fetch(`http://localhost:3000/api/confirm/`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/confirm/`, {
             method: "PUT",
             body: JSON.stringify({ intentId: payment_intent }), // Send as an object
             headers: { 'Content-Type': 'application/json' },

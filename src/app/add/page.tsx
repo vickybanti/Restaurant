@@ -76,7 +76,7 @@ const Page = () => {
         const url = await upload()
         setLoading(true)
         try {
-         const res= await fetch("http://localhost:3000/api/products",{
+         const res= await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`,{
             method: "POST",
             body:JSON.stringify({
                 img:url,
