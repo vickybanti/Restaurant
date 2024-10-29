@@ -11,47 +11,35 @@ import {
 } from "@/components/ui/carousel"
 import Image from 'next/image'
 
-// Move getData outside component
-const getData = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/categories`, {
+const getData = () => {
+  return fetch(`${process.env.NEXT_PUBLIC_URL}/api/categories`, {
     method: "GET",
     cache: "no-store",
   })
-  if (!res.ok) {
-    throw new Error("Failed to fetch categories")
-  }
-  return res.json()
+  .then(res => {
+    if (!res.ok) {
+      throw new Error("Failed to fetch categories")
+    }
+    return res.json()
+  })
 }
 
 const Categories = () => {
-  const [categories, setCategories] = useState<CategoryType[]>([])
-
+  const [allCategories, setAllCategories] = useState<CategoryType[]>([])
+  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getData()
-        // Ensure data is an array before setting state
-        if (Array.isArray(data)) {
-          setCategories(data)
-        } else {
-          console.error("Categories data is not an array:", data)
-          setCategories([])
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error)
-        setCategories([])
-      }
-    }
-    fetchData()
+    getData()
+      .then(data => setAllCategories(data))
+      .catch(error => console.error("Error fetching categories:", error))
   }, [])
   
-  // Add a check to ensure categories is an array before mapping
+  
   return (
     <div className="py-7 mx-20 border-t-2 border-t-[#B78C56] mt-4">
       <h2 className="mb-4 font-sans text-3xl font-semibold text-gray-900 ">Categories</h2>
       <Carousel>
         <CarouselContent>
-          {Array.isArray(categories) && categories.map((category) => (
+          {allCategories.map((category) => (
             <CarouselItem key={category.id} className="md:basis-1/2 lg:basis-1/3">
               <div className={`p-4 rounded-sm bg-${category.color}-100 relative overflow-hidden group w-full h-[300px]`}>
                 <Image 
