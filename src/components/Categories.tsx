@@ -12,12 +12,10 @@ import {
 import Image from 'next/image'
 
 const getData = () => {
-  return fetch(`/api/categories`, {
+  return fetch(`${process.env.DATABASE_URL}/api/categories`, {
     method: "GET",
     cache: "no-store",
-    headers: {
-      'Content-Type': 'application/json',
-    },
+   
   })
   .then(res => {
     if (!res.ok) {
